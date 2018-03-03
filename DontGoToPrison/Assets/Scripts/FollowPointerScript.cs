@@ -21,6 +21,9 @@ public class FollowPointerScript : MonoBehaviour
   [SerializeField]
   private GameObject parent = null;
 
+  [SerializeField]
+  private int lineRendererYOffset = 1;
+
   private void Start()
   {
     if ( activeCamera == null
@@ -58,7 +61,7 @@ public class FollowPointerScript : MonoBehaviour
       && Vector3.Distance( prevRayHit.point, rayHit.point ) > minSegment )
     {
       lineRenderer.positionCount += 1;
-      lineRenderer.SetPosition( lineRenderer.positionCount - 1, rayHit.point + new Vector3(0,1,0) );
+      lineRenderer.SetPosition( lineRenderer.positionCount - 1, rayHit.point + new Vector3( 0, lineRendererYOffset, 0) );
       prevRayHit = rayHit;
       transform.position = rayHit.point;
     }
