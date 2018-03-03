@@ -2,23 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(UnityEngine.AI.NavMeshAgent))]
-public class Enemy : MonoBehaviour {
+[RequireComponent( typeof( UnityEngine.AI.NavMeshAgent ) )]
+public class Enemy : MonoBehaviour
+{
 
-	[SerializeField]
-	private Transform goal = null;
+  [SerializeField]
+  private int maxHealth = 100;
 
-	private UnityEngine.AI.NavMeshAgent agent = null;
+  private int currentHealth = 100;
+  private void Awake()
+  {
+    currentHealth = maxHealth;
+  }
 
-	// Use this for initialization
-	void Start () 
-	{
-		agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-	}
-	
-	// Update is called once per frame
-	void Update () 
-	{
-		agent.destination = goal.position;
-	}
+  public void UpdateHealth( int change )
+  {
+    currentHealth = Mathf.Max( 0, Mathf.Min( maxHealth, change ) );
+    if ( currentHealth == 0 )
+    {
+      GameObject.Destroy( gameObject );
+    }
+  }
 }
