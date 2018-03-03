@@ -2,26 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Team
-{
-	Enemy = 0,
-	Player = 1
-}
-
-public class AIUnit : MonoBehaviour {
-
-	[SerializeField]
-	private Team Team;
+public class Enemy : MonoBehaviour {
 
 	// Use this for initialization
-	void Start () 
-	{
+	void Start () {
 		
 	}
 	
 	// Update is called once per frame
-	void Update () 
-	{
+	void Update () {
 		
 	}
 }
