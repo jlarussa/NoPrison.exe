@@ -6,6 +6,8 @@ public class FollowPointerScript : MonoBehaviour
 {
 
   bool dragging = false;
+  [SerializeField]
+  private Camera activeCamera = null;
   // Use this for initialization
   void Start()
   {
@@ -23,9 +25,13 @@ public class FollowPointerScript : MonoBehaviour
     {
       dragging = false;
     }
+    RaycastHit rayHit;
     if ( dragging )
     {
-      transform.position = Input.mousePosition;
+      if ( Physics.Raycast( Camera.main.ScreenPointToRay( Input.mousePosition ), out rayHit ) )
+      {
+        transform.position = rayHit.point;
+      }
     }
   }
 }
