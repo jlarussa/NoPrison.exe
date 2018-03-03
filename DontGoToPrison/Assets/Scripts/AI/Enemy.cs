@@ -2,24 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(UnityEngine.AI.NavMeshAgent))]
 public class Enemy : MonoBehaviour {
 
 	[SerializeField]
 	private Transform goal = null;
 
-	private NavMeshAgent agent = null;
+	private UnityEngine.AI.NavMeshAgent agent = null;
 
 	// Use this for initialization
 	void Start () 
 	{
-		agent = GetComponent<NavMeshAgent>();
-		agent.destination = goal.position;
+		agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		
+		agent.destination = goal.position;
 	}
 }
