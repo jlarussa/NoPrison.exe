@@ -58,7 +58,7 @@ public class FollowPointerScript : MonoBehaviour
       && Vector3.Distance( prevRayHit.point, rayHit.point ) > minSegment )
     {
       lineRenderer.positionCount += 1;
-      lineRenderer.SetPosition( lineRenderer.positionCount - 1, rayHit.point );
+      lineRenderer.SetPosition( lineRenderer.positionCount - 1, rayHit.point + new Vector3(0,1,0) );
       prevRayHit = rayHit;
       transform.position = rayHit.point;
     }
