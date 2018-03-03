@@ -228,7 +228,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\HorizontalPagedLayoutGroup.cs" />
-    <Compile Include="Assets\LoadLevel.cs" />
+    <Compile Include="Assets\Scripts\LevelLoader.cs" />
     <Compile Include="Assets\Scripts\AI\AIUnit.cs" />
     <Compile Include="Assets\Scripts\AI\Enemy.cs" />
     <Compile Include="Assets\Scripts\AI\HotSpot.cs" />
