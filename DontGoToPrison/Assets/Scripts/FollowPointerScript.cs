@@ -36,10 +36,10 @@ public class FollowPointerScript : MonoBehaviour
   {
     if ( Input.GetMouseButtonDown( 0 ) )
     {
-      if ( Physics.Raycast( Camera.main.ScreenPointToRay( Input.mousePosition ), out prevRayHit ) )
+      if ( Physics.Raycast( activeCamera.ScreenPointToRay( Input.mousePosition ), out prevRayHit ) )
       {
         dragging = true;
-        lineRenderer.positionCount = 0;
+        lineRenderer.numPositions = 0;
       }
       else
       {
@@ -53,12 +53,12 @@ public class FollowPointerScript : MonoBehaviour
     }
     if (
       dragging
-      && Physics.Raycast( Camera.main.ScreenPointToRay( Input.mousePosition ), out rayHit )
+      && Physics.Raycast( activeCamera.ScreenPointToRay( Input.mousePosition ), out rayHit )
       && rayHit.collider.gameObject.layer != 4
       && Vector3.Distance( prevRayHit.point, rayHit.point ) > minSegment )
     {
-      lineRenderer.positionCount += 1;
-      lineRenderer.SetPosition( lineRenderer.positionCount - 1, rayHit.point );
+      lineRenderer.numPositions += 1;
+      lineRenderer.SetPosition( lineRenderer.numPositions - 1, rayHit.point );
       prevRayHit = rayHit;
       transform.position = rayHit.point;
     }
@@ -67,11 +67,11 @@ public class FollowPointerScript : MonoBehaviour
   private void OnDragEnd()
   {
     Transform parentTransform = parent == null ? mainCanvas.transform : parent.transform;
-    for ( int i = 0; i < lineRenderer.positionCount; i++ )
+    for ( int i = 0; i < lineRenderer.numPositions; i++ )
     {
       GameObject.Instantiate( prefab, lineRenderer.GetPosition( i ), Quaternion.identity, parentTransform );
     }
-    lineRenderer.positionCount = 0;
+    lineRenderer.numPositions = 0;
   }
 
   public void SelectPrefab( GameObject selectedPrefab )

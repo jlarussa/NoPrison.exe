@@ -81,11 +81,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\ColliderStretcher.cs" />
     <Compile Include="Assets\Scripts\AI\AIUnit.cs" />
     <Compile Include="Assets\Scripts\AI\Enemy.cs" />
+    <Compile Include="Assets\Scripts\AI\HotSpot.cs" />
     <Compile Include="Assets\Scripts\AI\TestWallCreator.cs" />
     <Compile Include="Assets\Scripts\AI\Wall.cs" />
+    <Compile Include="Assets\Scripts\ColliderStretcher.cs" />
     <Compile Include="Assets\Scripts\FollowPointerScript.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
