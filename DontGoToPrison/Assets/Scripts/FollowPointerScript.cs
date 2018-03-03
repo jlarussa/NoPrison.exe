@@ -14,8 +14,24 @@ public class FollowPointerScript : MonoBehaviour
   RaycastHit prevRayHit;
   [SerializeField]
   private int minSegment = 5;
+  [SerializeField]
+  private GameObject prefab = null;
+  [SerializeField]
+  private Canvas mainCanvas = null;
+  [SerializeField]
+  private GameObject parent = null;
 
-  // Update is called once per frame
+  private void Start()
+  {
+    if ( activeCamera == null
+      || lineRenderer == null
+      || prefab == null
+      || mainCanvas == null )
+    {
+      Debug.LogError( "Serialized Variable Missing! Script will not function properly" );
+    }
+  }
+
   void Update()
   {
     if ( Input.GetMouseButtonDown( 0 ) )
@@ -38,6 +54,7 @@ public class FollowPointerScript : MonoBehaviour
     if (
       dragging
       && Physics.Raycast( Camera.main.ScreenPointToRay( Input.mousePosition ), out rayHit )
+      && rayHit.collider.gameObject.layer != 4
       && Vector3.Distance( prevRayHit.point, rayHit.point ) > minSegment )
     {
       lineRenderer.numPositions += 1;
@@ -49,6 +66,16 @@ public class FollowPointerScript : MonoBehaviour
 
   private void OnDragEnd()
   {
+    Transform parentTransform = parent == null ? mainCanvas.transform : parent.transform;
+    for ( int i = 0; i < lineRenderer.numPositions; i++ )
+    {
+      GameObject.Instantiate( prefab, lineRenderer.GetPosition( i ), Quaternion.identity, parentTransform );
+    }
+    lineRenderer.numPositions = 0;
+  }
 
+  public void SelectPrefab( GameObject selectedPrefab )
+  {
+    prefab = selectedPrefab;
   }
 }
