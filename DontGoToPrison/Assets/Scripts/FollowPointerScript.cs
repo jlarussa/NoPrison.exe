@@ -49,11 +49,13 @@ public class FollowPointerScript : MonoBehaviour
         Debug.LogWarning( "Mouse is Off Screen starting drag!" );
       }
     }
+    
     if ( Input.GetMouseButtonUp( 0 ) )
     {
       dragging = false;
       OnDragEnd();
     }
+
     if (
       dragging
       && Physics.Raycast( activeCamera.ScreenPointToRay( Input.mousePosition ), out rayHit )
@@ -65,15 +67,37 @@ public class FollowPointerScript : MonoBehaviour
       prevRayHit = rayHit;
       transform.position = rayHit.point;
     }
+
   }
 
   private void OnDragEnd()
   {
+    bool changedPathing = false;
     Transform parentTransform = parent == null ? mainCanvas.transform : parent.transform;
     for ( int i = 0; i < lineRenderer.positionCount; i++ )
     {
       GameObject.Instantiate( prefab, lineRenderer.GetPosition( i ), Quaternion.identity, parentTransform );
+      changedPathing = true;
     }
+
+    // If we only tapped, didn't drag.
+    if ( lineRenderer.positionCount == 0 )
+    {
+      RaycastHit hit;
+      if ( Physics.Raycast( activeCamera.ScreenPointToRay( Input.mousePosition ), out hit ) )
+      {
+        GameObject.Instantiate( prefab, hit.point, Quaternion.identity, parentTransform );
+        changedPathing = true;
+      }
+    }
+
+    if ( changedPathing )
+    {
+      // We placed walls, rebuild the navigation
+      AstarPath.active.Scan();
+    }
+
+    // Finally, reset our line renderer
     lineRenderer.positionCount = 0;
   }
 
