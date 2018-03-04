@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Pathfinding;
 
 public class FollowPointerScript : MonoBehaviour
 {
@@ -67,27 +68,60 @@ public class FollowPointerScript : MonoBehaviour
       prevRayHit = rayHit;
       transform.position = rayHit.point;
     }
+  }
 
+  private Vector3 GetSnapToGridPosition( Vector3 unsnappedPosition )
+  {
+    GridGraph graph =  AstarPath.active.graphs[0] as GridGraph;
+    float nodeSize = graph.nodeSize;
+    float snapX = -0.5f * nodeSize + Mathf.Round( unsnappedPosition.x / nodeSize ) * nodeSize;
+    float snapZ = -0.5f * nodeSize + Mathf.Round( unsnappedPosition.z / nodeSize ) * nodeSize;
+    return new Vector3( snapX, unsnappedPosition.y, snapZ );
   }
 
   private void OnDragEnd()
   {
     bool changedPathing = false;
     Transform parentTransform = parent == null ? mainCanvas.transform : parent.transform;
+    GridGraph graph =  AstarPath.active.graphs[0] as GridGraph;
+    
+    // Figure out which tiles the line segment touches
     for ( int i = 0; i < lineRenderer.positionCount; i++ )
     {
-      GameObject.Instantiate( prefab, lineRenderer.GetPosition( i ), Quaternion.identity, parentTransform );
-      changedPathing = true;
+      if ( i >= lineRenderer.positionCount - 1 )
+      {
+        break;
+      }
+
+      // Get points along the line segment at regular intervals to figure out which points we're hitting
+      Vector3 startPoint = lineRenderer.GetPosition( i );
+      Vector3 endPoint = lineRenderer.GetPosition( i + 1 );
+      float distance = Vector3.Distance( startPoint, endPoint );
+      int numIntervals = Mathf.Max( 3, (int)( distance / graph.nodeSize ) );
+      Vector3 fromStartToEnd = endPoint - startPoint;
+      fromStartToEnd.Normalize();
+      for ( int y = 0; y < numIntervals; y++ )
+      {
+        Vector3 nextLocation = startPoint + fromStartToEnd * y * graph.nodeSize;
+        Vector3 snappedLocation = GetSnapToGridPosition( nextLocation );
+        if ( PlacementTracker.Current.AddNewTrackedObject( location: snappedLocation, prefab: prefab, parentTransform: parentTransform ) )
+        {
+          changedPathing = true;
+        }
+      }
     }
 
-    // If we only tapped, didn't drag.
+    // If we only tapped, place just one thing.
     if ( lineRenderer.positionCount == 0 )
     {
       RaycastHit hit;
       if ( Physics.Raycast( activeCamera.ScreenPointToRay( Input.mousePosition ), out hit ) )
       {
-        GameObject.Instantiate( prefab, hit.point, Quaternion.identity, parentTransform );
-        changedPathing = true;
+        Vector3 tappedLocation = GetSnapToGridPosition( hit.point );
+        if ( PlacementTracker.Current.AddNewTrackedObject( location: GetSnapToGridPosition( hit.point ), prefab: prefab, parentTransform: parentTransform ) )
+        {
+          changedPathing = true;
+        }
       }
     }
 
