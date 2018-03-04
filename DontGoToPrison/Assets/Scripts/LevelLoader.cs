@@ -9,7 +9,7 @@ public class LevelLoader : MonoBehaviour
   [SerializeField]
   private string sceneName = string.Empty;
 
-  public void LoadLevel()
+  public virtual void LoadLevel()
   {
     if ( sceneName != string.Empty )
     {
