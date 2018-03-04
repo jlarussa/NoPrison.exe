@@ -29,6 +29,7 @@ public class GameController : MonoBehaviour
     }
     triggeredEventList = new Dictionary<TriggerType, Action>();
     triggeredEventList[ TriggerType.Lose ] = LoseGame;
+    triggeredEventList[ TriggerType.Win ] = WinGame;
   }
 
   public void triggerEvent( TriggerType trigger )
@@ -40,6 +41,11 @@ public class GameController : MonoBehaviour
   }
 
   private void LoseGame()
+  {
+    SceneManager.LoadScene( "MainMenu" );
+  }
+
+  private void WinGame()
   {
     SceneManager.LoadScene( "MainMenu" );
   }
