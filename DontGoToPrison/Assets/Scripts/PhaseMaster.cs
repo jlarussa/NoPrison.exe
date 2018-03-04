@@ -8,31 +8,10 @@ public enum Phase
 	Play = 1,
 }
 
-public class PhaseMaster : MonoBehaviour 
+public class PhaseMaster : Singleton<PhaseMaster> 
 {
-	private static PhaseMaster current;
-	public static PhaseMaster Current
-	{
-		get
-		{
-			return current;
-		}
-		set
-		{
-			if ( current == null )
-			{
-				current = value;
-			}
-		}
-	}
-
 	private List<GameObject> buildPhaseObjects = new List<GameObject>(); 
 	private List<GameObject> playPhaseObjects = new List<GameObject>(); 
-
-	void Awake()
-	{
-		Current = this;		
-	}
 
 	public void BeginPlayPhase()
 	{

@@ -104,7 +104,7 @@ public class FollowPointerScript : MonoBehaviour
       {
         Vector3 nextLocation = startPoint + fromStartToEnd * y * graph.nodeSize;
         Vector3 snappedLocation = GetSnapToGridPosition( nextLocation );
-        if ( PlacementTracker.Current.AddNewTrackedObject( location: snappedLocation, prefab: prefab, parentTransform: parentTransform ) )
+        if ( PlacementTracker.Current.AddNewTrackedObject( snappedLocation: snappedLocation, prefab: prefab, parentTransform: parentTransform ) )
         {
           changedPathing = true;
         }
@@ -118,7 +118,7 @@ public class FollowPointerScript : MonoBehaviour
       if ( Physics.Raycast( activeCamera.ScreenPointToRay( Input.mousePosition ), out hit ) )
       {
         Vector3 tappedLocation = GetSnapToGridPosition( hit.point );
-        if ( PlacementTracker.Current.AddNewTrackedObject( location: GetSnapToGridPosition( hit.point ), prefab: prefab, parentTransform: parentTransform ) )
+        if ( PlacementTracker.Current.AddNewTrackedObject( snappedLocation: GetSnapToGridPosition( hit.point ), prefab: prefab, parentTransform: parentTransform ) )
         {
           changedPathing = true;
         }

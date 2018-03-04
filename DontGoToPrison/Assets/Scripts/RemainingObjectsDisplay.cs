@@ -24,7 +24,7 @@ public class RemainingObjectsDisplay : MonoBehaviour
     PhaseMaster.Current.BeginPlayPhase();
   }
 
-  void OnRemainingObjectsUpdated( object sender, PlacementTracker.RemainingObjectsChangedArgs args )
+  void OnRemainingObjectsUpdated( object sender, RemainingObjectsChangedArgs args )
   {
     remainingText.text = string.Format( "Remaining: {0}", args.remainingObjects );
   }
