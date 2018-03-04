@@ -10,4 +10,9 @@ public class RetryLevelLoader : LevelLoader
   {
     SceneManager.LoadScene( PlayerPrefs.GetString( GameController.lastLevelPref ) );
   }
+
+  public void LoadCurrentLevel()
+  {
+    SceneManager.LoadScene( SceneManager.GetActiveScene().name );
+  }
 }
