@@ -34,13 +34,6 @@ public class PhaseMaster : MonoBehaviour
 		Current = this;		
 	}
 
-	// Use this for initialization
-	void Start () 
-	{
-		SetActiveList( buildPhaseObjects, true );
-		SetActiveList( playPhaseObjects, false );
-	}
-
 	public void BeginPlayPhase()
 	{
 		SetActiveList( buildPhaseObjects, false );
@@ -54,11 +47,13 @@ public class PhaseMaster : MonoBehaviour
 			case Phase.Building:
 			{
 				buildPhaseObjects.Add( go );
+				go.SetActive( true );
 				break;
 			}
 			case Phase.Play:
 			{
 				playPhaseObjects.Add( go );
+				go.SetActive( false );
 				break;
 			}
 		}
