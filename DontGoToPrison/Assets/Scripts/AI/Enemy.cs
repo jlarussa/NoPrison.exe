@@ -2,23 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(UnityEngine.AI.NavMeshAgent))]
-public class Enemy : MonoBehaviour {
+[RequireComponent( typeof( UnityEngine.AI.NavMeshAgent ) )]
+public class Enemy : MonoBehaviour
+{
+  public enum DamageSource
+  {
+    hotspot,
+    turret
+  }
 
-	[SerializeField]
-	private Transform goal = null;
+  [SerializeField]
+  private int maxHealth = 100;
 
-	private UnityEngine.AI.NavMeshAgent agent = null;
+  [SerializeField]
+  private List<DamageSource> immunityList = new List<DamageSource>();
 
-	// Use this for initialization
-	void Start () 
-	{
-		agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-	}
-	
-	// Update is called once per frame
-	void Update () 
-	{
-		agent.destination = goal.position;
-	}
+  [SerializeField]
+  private int currentHealth = 100;
+  private void Awake()
+  {
+    currentHealth = maxHealth;
+  }
+
+  public void UpdateHealth( int change, DamageSource source )
+  {
+    if ( !immunityList.Contains( source ) )
+    {
+      currentHealth = Mathf.Max( 0, Mathf.Min( maxHealth, change ) );
+    }
+    if ( currentHealth == 0 )
+    {
+      GameObject.Destroy( gameObject );
+    }
+  }
 }
