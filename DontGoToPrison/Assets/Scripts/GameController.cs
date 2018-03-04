@@ -18,6 +18,8 @@ public class GameController : MonoBehaviour
   }
   private Dictionary<TriggerType, Action> triggeredEventList;
 
+  public const string lastLevelPref = "LastScene";
+
   void Awake()
   {
     //Mark ourself Don't destroy on load.
@@ -42,7 +44,8 @@ public class GameController : MonoBehaviour
 
   private void LoseGame()
   {
-    SceneManager.LoadScene( "MainMenu" );
+    PlayerPrefs.SetString( lastLevelPref, SceneManager.GetActiveScene().name );
+    SceneManager.LoadScene( "GameOver" );
   }
 
   private void WinGame()
