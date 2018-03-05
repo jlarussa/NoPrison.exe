@@ -1,16 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Pathfinding;
 
-public class Wall : MonoBehaviour {
+public class Wall : MonoBehaviour 
+{
+	private static string enemyTag = "Enemy";
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+	private static string wallBreakerName = "WallBreaker";
+
+	private void OnTriggerEnter( Collider other )
+  {
+    if ( other.gameObject.tag == enemyTag && other.transform.parent.name == wallBreakerName )
+    {
+			Destroy( this.gameObject );
+			AstarPath.active.graphs[ 0 ].Scan();
+    }
+  }
 }
