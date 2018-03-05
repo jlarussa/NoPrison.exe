@@ -2,34 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridLayoutController : MonoBehaviour 
+public class GridLayoutController : MonoBehaviour
 {
-	[SerializeField]
-	private Vector2 gridDimensions = new Vector2( 40, 30 );
+  [SerializeField]
+  public Vector2 gridDimensions = new Vector2( 40, 30 );
 
   [SerializeField]
-  private GameObject gridButton = null;
+  public GameObject gridButton = null;
 
   [SerializeField]
   private GameObject gridButtonParent = null;
 
   [SerializeField]
-	private Material gridShader = null;
+  private Material gridShader = null;
 
-	private AstarPath pathing;
+  private AstarPath pathing;
+  private List<GameObject> GridTiles = new List<GameObject>();
 
-	// Use this for initialization
-	void Start ()
+  // Use this for initialization
+  void Start()
   {
-	  for ( int i = 0; i < gridDimensions.x * gridDimensions.y; i++ )
+    DrawGrid();
+  }
+
+  // Update is called once per frame
+  public void DrawGrid()
+  {
+    ClearGrid();
+    for ( int i = 0; i < gridDimensions.x * gridDimensions.y; i++ )
     {
-      Instantiate( gridButton, gridButtonParent.transform );
+      GridTiles.Add( Instantiate( gridButton, gridButtonParent.transform ) );
     }
-	}
-	
-	// Update is called once per frame
-	void Update ()
+  }
+  void ClearGrid()
   {
-		
-	}
+    foreach ( GameObject tile in GridTiles )
+    {
+      Destroy( tile );
+    }
+    GridTiles.Clear();
+  }
 }

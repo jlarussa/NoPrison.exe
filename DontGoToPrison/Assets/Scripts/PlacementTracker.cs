@@ -68,15 +68,24 @@ public class PlacementTracker : Singleton<PlacementTracker>
     AddNewTrackedObject( snappedLocation, prefab );
   }
 
+  public void SelectEraser()
+  {
+    isEraserMode = true;
+  }
+
   private void Erase( Vector3 snappedLocation )
   {
-    if ( trackedLocations[ snappedLocation ] == null )
+    if ( !trackedLocations.ContainsKey( snappedLocation ) || trackedLocations[ snappedLocation ] == null )
     {
       return;
     }
-    
+
     Destroy( trackedLocations[ snappedLocation ] );
-    trackedLocations[ snappedLocation ] = null;
+    trackedLocations.Remove( snappedLocation );
+    if ( CurrentObjectsUpdated != null )
+    {
+      CurrentObjectsUpdated.Invoke( this, new RemainingObjectsChangedArgs( MaxObjects - currentObjects ) );
+    }
 
     RebuildGrid();
 
@@ -129,6 +138,7 @@ public class PlacementTracker : Singleton<PlacementTracker>
   public void SelectPrefab( GameObject selectedPrefab )
   {
     prefab = selectedPrefab;
+    isEraserMode = false;
   }
 
 }
