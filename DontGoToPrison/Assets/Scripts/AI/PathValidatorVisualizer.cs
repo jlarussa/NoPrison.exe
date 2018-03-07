@@ -67,7 +67,10 @@ public class PathValidatorVisualizer : MonoBehaviour
       lineRenderer.material.color = new Color( invalidColor.r, invalidColor.g, invalidColor.b, pathAlpha );
     }
 
-    PathValidityUpdated( this, new IsValidPathEventArgs( isPathPossible ) );
+    if ( PathValidityUpdated != null )
+    {
+      PathValidityUpdated.Invoke( this, new IsValidPathEventArgs( isPathPossible ) );
+    }
 
     var vectorArray = p.vectorPath.ToArray();
     lineRenderer.positionCount = vectorArray.Length;
