@@ -5,10 +5,21 @@ using UnityEngine;
 public class HotSpot : MonoBehaviour
 {
   private static string enemyTag = "Enemy";
+  
   [SerializeField]
   private float rate = 1f;
+  
   [SerializeField]
   private int damage = 1;
+
+  [SerializeField]
+  private int health = 100;
+
+  [SerializeField]
+  private int selfDamagePerEnemyHit = 1;
+
+  [SerializeField]
+  private bool loseHealthPerEnemy = false;
 
   bool isRunning = false;
 
@@ -39,10 +50,20 @@ public class HotSpot : MonoBehaviour
       isRunning = true;
       var waitTime = new WaitForSeconds( rate );
       Enemy enemyScript;
+      if ( !loseHealthPerEnemy )
+      {
+        health -= selfDamagePerEnemyHit;  
+      }
+
       while ( enemies.Count > 0 )
       {
         foreach ( Collider enemy in enemies )
         {
+          if ( loseHealthPerEnemy )
+          {
+            health -= selfDamagePerEnemyHit;
+          }
+
           enemyScript = enemy.gameObject.GetComponent<Enemy>();
           enemyScript.UpdateHealth( -damage, Enemy.DamageSource.hotspot );
         }
