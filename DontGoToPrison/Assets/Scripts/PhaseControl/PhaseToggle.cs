@@ -10,12 +10,11 @@ public class PhaseToggle : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		PhaseMaster.Current.Register( this.gameObject, phase );
+		ToggleOnStart();
 	}
 	
-	// Update is called once per frame
-	void Update () 
+	protected virtual void ToggleOnStart()
 	{
-		
+		PhaseMaster.Current.Register( this.gameObject, phase );
 	}
 }
