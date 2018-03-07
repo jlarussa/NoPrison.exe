@@ -348,7 +348,6 @@
     <Compile Include="Assets\Scripts\Grid\GridButton.cs" />
     <Compile Include="Assets\Scripts\Grid\GridLayoutController.cs" />
     <Compile Include="Assets\Scripts\Grid\GridScreenFitter.cs" />
-    <Compile Include="Assets\Scripts\HorizontalPagedLayoutGroup.cs" />
     <Compile Include="Assets\Scripts\LevelLoader.cs" />
     <Compile Include="Assets\Scripts\PhaseMaster.cs" />
     <Compile Include="Assets\Scripts\PhaseToggle.cs" />
@@ -357,6 +356,8 @@
     <Compile Include="Assets\Scripts\RetryLevelLoader.cs" />
     <Compile Include="Assets\Scripts\Singleton.cs" />
     <Compile Include="Assets\Scripts\StartScene.cs" />
+    <Compile Include="Assets\Scripts\UI\HorizontalPagedLayoutGroup.cs" />
+    <Compile Include="Assets\Scripts\UI\SlowTextTyper.cs" />
     <Compile Include="Assets\Scripts\WinGame.cs" />
   </ItemGroup>
   <ItemGroup>
