@@ -80,8 +80,13 @@ public class PlacementTracker : Singleton<PlacementTracker>
       return;
     }
 
+    // get the object and move it far away so it can be destroyed at Unity's own pace.
+    // if we leave it here and destroy it, it won't dissapear immediately so rebuilding the pathfinding grid
+    // will still think it is there.
+    trackedLocations[ snappedLocation ].transform.position = new Vector3( 100000, 100000, 100000 );
     Destroy( trackedLocations[ snappedLocation ] );
     trackedLocations.Remove( snappedLocation );
+
     if ( CurrentObjectsUpdated != null )
     {
       CurrentObjectsUpdated.Invoke( this, new RemainingObjectsChangedArgs( MaxObjects - currentObjects ) );

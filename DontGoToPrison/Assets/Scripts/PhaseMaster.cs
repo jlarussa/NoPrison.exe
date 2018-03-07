@@ -13,9 +13,25 @@ public class PhaseMaster : Singleton<PhaseMaster>
 	private List<GameObject> buildPhaseObjects = new List<GameObject>(); 
 	private List<GameObject> playPhaseObjects = new List<GameObject>(); 
 
-	public void BeginPlayPhase()
+  public Phase CurrentPhase
+  {
+    get; private set;
+  }
+
+  public delegate void OnPhaseChangeDelegate( Phase newPhase );
+
+  public OnPhaseChangeDelegate onPhaseChange;
+
+  private void OnAwake()
+  {
+    CurrentPhase = Phase.Building;
+  }
+
+  public void BeginPlayPhase()
 	{
-		SetActiveList( buildPhaseObjects, false );
+    CurrentPhase = Phase.Play;
+    onPhaseChange( CurrentPhase );
+    SetActiveList( buildPhaseObjects, false );
 		SetActiveList( playPhaseObjects, true );
 	}
 

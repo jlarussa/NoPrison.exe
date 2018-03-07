@@ -21,9 +21,13 @@ public class StartScene : MonoBehaviour
     }
   }
 
+  public void SkipIntro()
+  {
+    SceneManager.LoadScene( "MainMenu" );
+  }
+
   private void WaitForIntro( object sender, EventArgs args )
   {
     SceneManager.LoadScene( "MainMenu" );
-
   }
 }
