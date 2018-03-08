@@ -337,11 +337,13 @@
     <Compile Include="Assets\AstarPathfindingProject\Utilities\RetainedGizmos.cs" />
     <Compile Include="Assets\AstarPathfindingProject\Utilities\UnityReferenceHelper.cs" />
     <Compile Include="Assets\Scripts\AI\AIUnit.cs" />
+    <Compile Include="Assets\Scripts\AI\Bullet.cs" />
     <Compile Include="Assets\Scripts\AI\Enemy.cs" />
     <Compile Include="Assets\Scripts\AI\HotSpot.cs" />
     <Compile Include="Assets\Scripts\AI\PathValidatorVisualizer.cs" />
     <Compile Include="Assets\Scripts\AI\PathVisualizer.cs" />
     <Compile Include="Assets\Scripts\AI\TestWallCreator.cs" />
+    <Compile Include="Assets\Scripts\AI\Turret.cs" />
     <Compile Include="Assets\Scripts\AI\Wall.cs" />
     <Compile Include="Assets\Scripts\ColliderStretcher.cs" />
     <Compile Include="Assets\Scripts\CollisionTrigger.cs" />
@@ -354,6 +356,7 @@
     <Compile Include="Assets\Scripts\PhaseControl\EnemyPhaseToggle.cs" />
     <Compile Include="Assets\Scripts\PhaseControl\PhaseMaster.cs" />
     <Compile Include="Assets\Scripts\PhaseControl\PhaseToggle.cs" />
+    <Compile Include="Assets\Scripts\PhaseControl\TurretPhaseToggle.cs" />
     <Compile Include="Assets\Scripts\PlacementTracker.cs" />
     <Compile Include="Assets\Scripts\RemainingObjectsDisplay.cs" />
     <Compile Include="Assets\Scripts\RetryLevelLoader.cs" />
