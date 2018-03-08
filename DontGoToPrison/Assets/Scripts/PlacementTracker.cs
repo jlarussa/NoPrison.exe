@@ -3,15 +3,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RemainingObjectsChangedArgs : EventArgs
-{
-  public RemainingObjectsChangedArgs( int remaining )
-  {
-    remainingObjects = remaining;
-  }
-  public int remainingObjects;
-}
-
 public class PlacementTracker : Singleton<PlacementTracker>
 {
   private bool isEraserMode = false;
@@ -26,8 +17,6 @@ public class PlacementTracker : Singleton<PlacementTracker>
 
   // This is a set of all locations the player has put stuff.
   private Dictionary<Vector3, GameObject> trackedLocations = new Dictionary<Vector3, GameObject>();
-
-  public EventHandler<RemainingObjectsChangedArgs> CurrentObjectsUpdated;
 
   private void Start()
   {

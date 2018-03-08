@@ -1,6 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
+public class RemainingObjectsChangedArgs : EventArgs
+{
+  public RemainingObjectsChangedArgs( string tag, int remaining )
+  {
+    remainingObjects = remaining;
+		this.tag = tag;
+  }
+  public int remainingObjects;
+	public string tag;
+}
 
 public class PlacementAmountConfig : Singleton<PlacementAmountConfig> 
 {
@@ -9,6 +21,8 @@ public class PlacementAmountConfig : Singleton<PlacementAmountConfig>
 		public int Max;
 		public int Current;
 	}
+
+	public EventHandler<RemainingObjectsChangedArgs> PlacementAmountChangedEvent;
 
 	[SerializeField]
 	private List<GameObject> prefabs;
@@ -29,6 +43,20 @@ public class PlacementAmountConfig : Singleton<PlacementAmountConfig>
 		for ( int i = 0; i < prefabs.Count; i++ )
 		{
 			prefabAmounts.Add( prefabs[ i ].tag, new MaxAndCurrent { Max = maxPlacementAmounts[ i ], Current = 0 } );
+		}
+
+		StartCoroutine( NotifyButtons() );
+	}
+
+	private IEnumerator NotifyButtons()
+	{
+		yield return new WaitForEndOfFrame();
+		foreach ( KeyValuePair<string, MaxAndCurrent> kvp in prefabAmounts )
+		{
+			if ( PlacementAmountChangedEvent != null )
+			{
+				PlacementAmountChangedEvent.Invoke( this, new RemainingObjectsChangedArgs( tag: kvp.Key, remaining: kvp.Value.Max - kvp.Value.Current ) );
+			}
 		}
 	}
 
@@ -55,6 +83,10 @@ public class PlacementAmountConfig : Singleton<PlacementAmountConfig>
 		if ( maxAndCurrent.Current + amount >= 0 && maxAndCurrent.Current + amount <= maxAndCurrent.Max )
 		{
 			prefabAmounts[ prefab.tag ] = new MaxAndCurrent() { Current = prefabAmounts[ prefab.tag ].Current + amount, Max = prefabAmounts[ prefab.tag ].Max };
+			if ( PlacementAmountChangedEvent != null )
+			{
+				PlacementAmountChangedEvent.Invoke( this, new RemainingObjectsChangedArgs( tag: prefab.tag, remaining: prefabAmounts[ prefab.tag ].Max - prefabAmounts[ prefab.tag ].Current ) );
+			}
 		}
 
 	}
