@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class BorderWallCreator : MonoBehaviour
 {
-  //[SerializeField]
-  //private GameObject NPCWall = null;
+  [SerializeField]
+  private GameObject NPCWall = null;
+
+  [SerializeField]
+  private GameObject PlayerDefault = null;
 
   private RaycastHit bottomLeft;
   private RaycastHit topLeft;
@@ -20,6 +23,7 @@ public class BorderWallCreator : MonoBehaviour
   private IEnumerator CalculateBorder()
   {
     yield return new WaitForEndOfFrame();
+    PlacementTracker.Current.SelectPrefab( NPCWall );
     Rect rectTransform = RectTransformToScreenSpace( ( RectTransform )transform );
     if ( Physics.Raycast( Camera.main.ScreenPointToRay( new Vector3( rectTransform.xMin, rectTransform.yMin ) ), out bottomLeft ) )
     {
@@ -38,7 +42,7 @@ public class BorderWallCreator : MonoBehaviour
       PlacementTracker.Current.TilePressed( topRight.point );
     }
 
-
+    PlacementTracker.Current.SelectPrefab( PlayerDefault );
 
   }
   private Rect RectTransformToScreenSpace( RectTransform transform )
