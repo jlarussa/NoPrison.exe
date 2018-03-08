@@ -22,6 +22,9 @@ public class PlacementTracker : Singleton<PlacementTracker>
   [SerializeField]
   private GameObject prefab = null;
 
+  [SerializeField]
+  private List<string> NonErasableObjects = new List<string>();
+
   private GridGraph graph;
 
   public int currentObjects
@@ -75,7 +78,9 @@ public class PlacementTracker : Singleton<PlacementTracker>
 
   private void Erase( Vector3 snappedLocation )
   {
-    if ( !trackedLocations.ContainsKey( snappedLocation ) || trackedLocations[ snappedLocation ] == null )
+    if ( !trackedLocations.ContainsKey( snappedLocation )
+      || trackedLocations[ snappedLocation ] == null
+      || NonErasableObjects.Contains( trackedLocations[ snappedLocation ].tag ) )
     {
       return;
     }
@@ -135,9 +140,9 @@ public class PlacementTracker : Singleton<PlacementTracker>
     }
 
     float nodeSize = 1;
-    float snapX =  Mathf.Round( unsnappedPosition.x / nodeSize ) * nodeSize - 0.5f;
-    float snapZ =  Mathf.Round( unsnappedPosition.z / nodeSize ) * nodeSize - 0.5f;
-    return new Vector3( snapX, unsnappedPosition.y, snapZ );
+    float snapX = Mathf.Round( unsnappedPosition.x / nodeSize ) * nodeSize - 0.5f;
+    float snapZ = Mathf.Round( unsnappedPosition.z / nodeSize ) * nodeSize - 0.5f;
+    return new Vector3( snapX, 0, snapZ );
   }
 
   public void SelectPrefab( GameObject selectedPrefab )
