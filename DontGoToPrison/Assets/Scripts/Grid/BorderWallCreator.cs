@@ -27,24 +27,32 @@ public class BorderWallCreator : MonoBehaviour
     }
     if ( Physics.Raycast( Camera.main.ScreenPointToRay( new Vector3( rectTransform.xMin, rectTransform.yMax ) ), out topLeft ) )
     {
-      PlacementTracker.Current.TilePressed( bottomRight.point );
+      PlacementTracker.Current.TilePressed( topLeft.point );
     }
     if ( Physics.Raycast( Camera.main.ScreenPointToRay( new Vector3( rectTransform.xMax, rectTransform.yMin ) ), out bottomRight ) )
     {
-      PlacementTracker.Current.TilePressed( topLeft.point );
+      PlacementTracker.Current.TilePressed( bottomRight.point );
     }
     if ( Physics.Raycast( Camera.main.ScreenPointToRay( new Vector3( rectTransform.xMax, rectTransform.yMax ) ), out topRight ) )
     {
       PlacementTracker.Current.TilePressed( topRight.point );
     }
 
+
+
   }
-  public Rect RectTransformToScreenSpace( RectTransform transform )
+  private Rect RectTransformToScreenSpace( RectTransform transform )
   {
     Vector2 size = Vector2.Scale( transform.rect.size, transform.lossyScale );
-    Rect rect = new Rect( transform.position.x, Screen.height - transform.position.y, size.x, size.y );
-    rect.x -= ( transform.pivot.x * size.x );
-    rect.y -= ( ( 1.0f - transform.pivot.y ) * size.y );
+    Rect rect = new Rect( 0, 0, size.x, size.y );
     return rect;
   }
+
+  //private void StraightBorderLine( Vector3 start, Vector3 end )
+  //{
+  //  if (start.x == end.x)
+  //  {
+  //    for 
+  //  }
+  //}
 }
