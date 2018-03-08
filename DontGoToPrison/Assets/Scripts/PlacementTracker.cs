@@ -14,20 +14,12 @@ public class RemainingObjectsChangedArgs : EventArgs
 
 public class PlacementTracker : Singleton<PlacementTracker>
 {
-  [SerializeField]
-  private int MaxObjects = 30;
-
   private bool isEraserMode = false;
 
   [SerializeField]
   private GameObject prefab = null;
 
   private GridGraph graph;
-
-  public int currentObjects
-  {
-    get { return trackedLocations.Keys.Count; }
-  }
 
   // This is a set of all locations the player has put stuff.
   private Dictionary<Vector3, GameObject> trackedLocations = new Dictionary<Vector3, GameObject>();
@@ -36,10 +28,6 @@ public class PlacementTracker : Singleton<PlacementTracker>
 
   private void Start()
   {
-    if ( CurrentObjectsUpdated != null )
-    {
-      CurrentObjectsUpdated.Invoke( this, new RemainingObjectsChangedArgs( MaxObjects - currentObjects ) );
-    }
   }
 
   /// <summary>
@@ -83,14 +71,11 @@ public class PlacementTracker : Singleton<PlacementTracker>
     // get the object and move it far away so it can be destroyed at Unity's own pace.
     // if we leave it here and destroy it, it won't dissapear immediately so rebuilding the pathfinding grid
     // will still think it is there.
+    PlacementAmountConfig.Current.AdjustPrefabAmount( trackedLocations[ snappedLocation ], -1 );
+
     trackedLocations[ snappedLocation ].transform.position = new Vector3( 100000, 100000, 100000 );
     Destroy( trackedLocations[ snappedLocation ] );
     trackedLocations.Remove( snappedLocation );
-
-    if ( CurrentObjectsUpdated != null )
-    {
-      CurrentObjectsUpdated.Invoke( this, new RemainingObjectsChangedArgs( MaxObjects - currentObjects ) );
-    }
 
     RebuildGrid();
 
@@ -99,23 +84,20 @@ public class PlacementTracker : Singleton<PlacementTracker>
 
   public bool AddNewTrackedObject( Vector3 snappedLocation, GameObject prefab, Transform parentTransform = null )
   {
-    if ( currentObjects >= MaxObjects )
-    {
-      return false;
-    }
-
     if ( trackedLocations.ContainsKey( snappedLocation ) )
     {
       return false;
     }
 
+    if ( !PlacementAmountConfig.Current.PrefabHasUsesLeft( prefab ) )
+    {
+      return false;
+    }
+
+    PlacementAmountConfig.Current.AdjustPrefabAmount( prefab, 1 );
+
     GameObject obj = GameObject.Instantiate( prefab, snappedLocation, Quaternion.identity, parentTransform );
     trackedLocations.Add( snappedLocation, obj );
-
-    if ( CurrentObjectsUpdated != null )
-    {
-      CurrentObjectsUpdated.Invoke( this, new RemainingObjectsChangedArgs( MaxObjects - currentObjects ) );
-    }
 
     RebuildGrid();
 
