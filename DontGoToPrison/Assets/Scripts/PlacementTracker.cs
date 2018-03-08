@@ -134,9 +134,9 @@ public class PlacementTracker : Singleton<PlacementTracker>
       graph = AstarPath.active.graphs[ 0 ] as GridGraph;
     }
 
-    float nodeSize = graph.nodeSize;
-    float snapX = Mathf.Round( unsnappedPosition.x / nodeSize ) * nodeSize;
-    float snapZ = Mathf.Round( unsnappedPosition.z / nodeSize ) * nodeSize;
+    float nodeSize = 1;
+    float snapX =  Mathf.Round( unsnappedPosition.x / nodeSize ) * nodeSize - 0.5f;
+    float snapZ =  Mathf.Round( unsnappedPosition.z / nodeSize ) * nodeSize - 0.5f;
     return new Vector3( snapX, unsnappedPosition.y, snapZ );
   }
 
