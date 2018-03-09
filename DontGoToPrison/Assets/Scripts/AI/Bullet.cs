@@ -10,6 +10,9 @@ public class Bullet : MonoBehaviour
 	[SerializeField]
 	private int damage = 15;
 
+  [SerializeField]
+  private bool wallsBlockShots = false;
+
 	private const string enemyTag = "Enemy";
 
 	private const string wallTag = "Wall";
@@ -37,10 +40,15 @@ public class Bullet : MonoBehaviour
 			return;
     }
 
-		if ( other.gameObject.tag == wallTag || other.gameObject.tag == borderTag )
+		if ( other.gameObject.tag == borderTag )
 		{
 			Destroy( this.gameObject );
 		}
+
+    if ( other.gameObject.tag == wallTag && wallsBlockShots )
+    {
+      Destroy( this.gameObject );
+    }
   }
 
 }
