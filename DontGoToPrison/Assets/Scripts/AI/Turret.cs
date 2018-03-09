@@ -90,6 +90,13 @@ public class Turret : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
+    if ( target == null )
+    {
+      return;
+    }
 
+    Vector3 dir = target.transform.position - transform.position;
+    float angle = Mathf.Atan2( dir.z, dir.x ) * Mathf.Rad2Deg;
+    transform.rotation = Quaternion.Euler( 90, 0, angle - 90 );
   }
 }
