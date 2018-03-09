@@ -92,6 +92,7 @@ public class Turret : MonoBehaviour
   {
     if ( target == null )
     {
+      transform.rotation = Quaternion.Euler( 90, 0, -90 );
       return;
     }
 
