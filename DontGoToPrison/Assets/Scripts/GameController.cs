@@ -24,32 +24,32 @@ public class GameController : MonoBehaviour
   {
     //Mark ourself Don't destroy on load.
     //singleton may be dumb, but we'll see
-    DontDestroyOnLoad( gameObject );
-    if ( Current == null )
+    DontDestroyOnLoad(gameObject);
+    if (Current == null)
     {
       Current = this;
     }
     triggeredEventList = new Dictionary<TriggerType, Action>();
-    triggeredEventList[ TriggerType.Lose ] = LoseGame;
-    triggeredEventList[ TriggerType.Win ] = WinGame;
+    triggeredEventList[TriggerType.Lose] = LoseGame;
+    triggeredEventList[TriggerType.Win] = WinGame;
   }
 
-  public void triggerEvent( TriggerType trigger )
+  public void triggerEvent(TriggerType trigger)
   {
-    if ( triggeredEventList[ trigger ] != null )
+    if (triggeredEventList[trigger] != null)
     {
-      triggeredEventList[ trigger ].Invoke();
+      triggeredEventList[trigger].Invoke();
     }
   }
 
   private void LoseGame()
   {
-    PlayerPrefs.SetString( lastLevelPref, SceneManager.GetActiveScene().name );
-    SceneManager.LoadScene( "GameOver" );
+    PlayerPrefs.SetString(lastLevelPref, SceneManager.GetActiveScene().name);
+    SceneManager.LoadScene("GameOver");
   }
 
   private void WinGame()
   {
-    SceneManager.LoadScene( "MainMenu" );
+    SceneManager.LoadScene("WinGame");
   }
 }

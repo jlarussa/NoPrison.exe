@@ -9,11 +9,26 @@ public class LevelLoader : MonoBehaviour
   [SerializeField]
   private string sceneName = string.Empty;
 
+  [SerializeField]
+  private GameObject loadingImage = null;
+
+  void Start()
+  {
+    if (loadingImage != null)
+    {
+      loadingImage.SetActive(false);
+    }
+  }
+
   public virtual void LoadLevel()
   {
-    if ( sceneName != string.Empty )
+    if (loadingImage != null)
     {
-      SceneManager.LoadScene( sceneName );
+      loadingImage.SetActive(true);
+    }
+    if (sceneName != string.Empty)
+    {
+      SceneManager.LoadScene(sceneName);
     }
   }
 }
