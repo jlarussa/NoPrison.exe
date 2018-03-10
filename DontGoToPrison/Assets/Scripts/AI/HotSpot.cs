@@ -26,6 +26,11 @@ public class HotSpot : MonoBehaviour
   private List<Collider> enemies = new List<Collider>();
   private void OnTriggerEnter( Collider other )
   {
+    if ( PhaseMaster.Current.CurrentPhase == Phase.Building )
+    {
+      return;
+    }
+
     if ( other.gameObject.tag == enemyTag )
     {
       enemies.Add( other );
@@ -35,6 +40,7 @@ public class HotSpot : MonoBehaviour
       }
     }
   }
+  
   private void OnTriggerExit( Collider other )
   {
     if ( other.gameObject.tag == enemyTag )
@@ -74,7 +80,7 @@ public class HotSpot : MonoBehaviour
       {
         Destroy( gameObject );
       }
-      
+
       isRunning = false;
     }
   }
