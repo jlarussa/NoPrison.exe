@@ -19,7 +19,7 @@ public class GameController : MonoBehaviour
   }
   private Dictionary<TriggerType, Action> triggeredEventList;
 
-  public object triggeredParams = null;
+  public int triggeredParams = 0;
 
   public const string lastLevelPref = "LastScene";
 
@@ -38,9 +38,10 @@ public class GameController : MonoBehaviour
   }
 
   //You will always set the parameters here if you want to
-  public void triggerEvent( TriggerType trigger, object parameters = null )
+  public void triggerEvent( TriggerType trigger, int parameters )
   {
     triggeredParams = parameters;
+
     if ( triggeredEventList.ContainsKey( trigger ) && triggeredEventList[ trigger ] != null )
     {
       triggeredEventList[ trigger ].Invoke();

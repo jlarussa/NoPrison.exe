@@ -6,7 +6,7 @@ public class TriggerLevelLoad : MonoBehaviour
 {
 
   [SerializeField]
-  float nextLevelButton = 0;
+  int nextLevelButton = 0;
   // Use this for initialization
   public void LoadLevel()
   {

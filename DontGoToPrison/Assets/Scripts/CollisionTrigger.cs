@@ -13,7 +13,7 @@ public class CollisionTrigger : MonoBehaviour
   {
     if ( !string.IsNullOrEmpty( targetTag ) && other.gameObject.tag == targetTag )
     {
-      GameController.Current.triggerEvent( triggerType );
+      GameController.Current.triggerEvent( triggerType, GameController.Current.triggeredParams );
     }
   }
 }
