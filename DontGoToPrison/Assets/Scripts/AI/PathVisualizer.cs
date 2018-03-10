@@ -38,7 +38,7 @@ public class PathVisualizer : MonoBehaviour
     // stop rebuilding the path once the game starts.
     if ( newPhase == Phase.Play )
     {
-      seeker.pathCallback -= OnPathDelegate;
+      //seeker.pathCallback -= OnPathDelegate;
     }
   }
 

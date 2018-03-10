@@ -35,8 +35,11 @@ public class Bullet : MonoBehaviour
   {
     if ( other.gameObject.tag == enemyTag  )
     {
-			Destroy( this.gameObject );
-			other.gameObject.GetComponent<Enemy>().UpdateHealth( -damage, Enemy.DamageSource.turret );
+			if ( other.gameObject.GetComponent<Enemy>().UpdateHealth( -damage, Enemy.DamageSource.turret ) )
+			{
+				Destroy( this.gameObject );
+			}
+			
 			return;
     }
 
