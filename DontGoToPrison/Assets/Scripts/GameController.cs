@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour
   {
     Lose,
     Win,
+    LoadLevel
   }
   public static GameController Current
   {
@@ -18,38 +19,42 @@ public class GameController : MonoBehaviour
   }
   private Dictionary<TriggerType, Action> triggeredEventList;
 
+  public object triggeredParams = null;
+
   public const string lastLevelPref = "LastScene";
 
   void Awake()
   {
     //Mark ourself Don't destroy on load.
     //singleton may be dumb, but we'll see
-    DontDestroyOnLoad(gameObject);
-    if (Current == null)
+    DontDestroyOnLoad( gameObject );
+    if ( Current == null )
     {
       Current = this;
     }
     triggeredEventList = new Dictionary<TriggerType, Action>();
-    triggeredEventList[TriggerType.Lose] = LoseGame;
-    triggeredEventList[TriggerType.Win] = WinGame;
+    triggeredEventList[ TriggerType.Lose ] = LoseGame;
+    triggeredEventList[ TriggerType.Win ] = WinGame;
   }
 
-  public void triggerEvent(TriggerType trigger)
+  //You will always set the parameters here if you want to
+  public void triggerEvent( TriggerType trigger, object parameters = null )
   {
-    if (triggeredEventList[trigger] != null)
+    triggeredParams = parameters;
+    if ( triggeredEventList.ContainsKey( trigger ) && triggeredEventList[ trigger ] != null )
     {
-      triggeredEventList[trigger].Invoke();
+      triggeredEventList[ trigger ].Invoke();
     }
   }
 
   private void LoseGame()
   {
-    PlayerPrefs.SetString(lastLevelPref, SceneManager.GetActiveScene().name);
-    SceneManager.LoadScene("GameOver");
+    PlayerPrefs.SetString( lastLevelPref, SceneManager.GetActiveScene().name );
+    SceneManager.LoadScene( "GameOver" );
   }
 
   private void WinGame()
   {
-    SceneManager.LoadScene("WinGame");
+    SceneManager.LoadScene( "WinGame" );
   }
 }

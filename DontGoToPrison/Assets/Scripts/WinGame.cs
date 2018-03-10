@@ -9,7 +9,7 @@ public class WinGame : MonoBehaviour
   {
     if ( transform.childCount == 0 )
     {
-      GameController.Current.triggerEvent( GameController.TriggerType.Win );
+      GameController.Current.triggerEvent( GameController.TriggerType.Win, GameController.Current.triggeredParams );
     }
   }
 }
