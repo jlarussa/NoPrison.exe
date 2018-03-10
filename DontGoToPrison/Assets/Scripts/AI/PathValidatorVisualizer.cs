@@ -17,7 +17,7 @@ public class PathValidatorVisualizer : PathVisualizer
     base.OnPathDelegate( p );
     if ( PathValidityUpdated != null )
     {
-      PathValidityUpdated.Invoke( this, new IsValidPathEventArgs( isPathPossible ) );
+      PathValidityUpdated.Invoke( this.gameObject, new IsValidPathEventArgs( isPathPossible ) );
     }
   }
 }

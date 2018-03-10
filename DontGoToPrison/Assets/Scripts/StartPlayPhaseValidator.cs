@@ -9,13 +9,12 @@ public class StartPlayPhaseValidator : MonoBehaviour
 
 	private Text playText = null;
 
-	[SerializeField]
-  private PathValidatorVisualizer validator;
-
   [SerializeField]
   private Button button;
 
   private bool isValid = true;
+
+	private Dictionary<object, bool> validations = new Dictionary<object, bool>();
 
   void Awake()
   {
@@ -24,32 +23,59 @@ public class StartPlayPhaseValidator : MonoBehaviour
 
   void Start()
   {
+		var enemies = GameObject.FindGameObjectsWithTag( "Enemy" );
+		foreach ( GameObject enemyObj in enemies )
+		{
+			var validator = enemyObj.GetComponent<PathValidatorVisualizer>(); 
+			if ( validator ==  null )
+			{
+				continue;
+			}
+			validator.PathValidityUpdated += OnPathValidityUpdated;
+			validations.Add( enemyObj, true );
+		}
+
     PlacementAmountConfig.Current.PlacementAmountChangedEvent += OnRemainingObjectsUpdated;
-    validator.PathValidityUpdated += OnPathValidityUpdated;
   }
 
   // Hacky: make a real play button you slacker
   // adding to the hackniess! Q.Q
   public void PlayPressed()
   {
-    if ( isValid )
+    if ( isValid && AreAllEnemiesValidPaths() )
     {
       PhaseMaster.Current.BeginPlayPhase();
     }
   }
 
+	private bool AreAllEnemiesValidPaths()
+	{
+		foreach ( var key in validations.Keys )
+		{
+			if ( validations[ key ] == false )
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
   void OnPathValidityUpdated( object sender, IsValidPathEventArgs args )
   {
     // TODO: change the color of the button to blue / red to match the validator path?
-    button.interactable = args.isValidPath;
-    isValid = args.isValidPath;
+
+    validations[ sender ] = args.isValidPath;
+
+		button.interactable = AreAllEnemiesValidPaths();
+
     playText.color = button.interactable ? button.colors.normalColor : button.colors.disabledColor;
   }
 
   void OnRemainingObjectsUpdated( object sender, RemainingObjectsChangedArgs args )
   {
     // set the path validity to false until the path is re-evaluated
-    isValid = false;
+    //isValid = false;
   }
 
 }

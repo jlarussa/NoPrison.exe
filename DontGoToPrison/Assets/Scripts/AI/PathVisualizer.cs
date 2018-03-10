@@ -27,6 +27,11 @@ public class PathVisualizer : MonoBehaviour
 
   void Start ()
   {
+    if ( player == null )
+    {
+      player = GameObject.FindGameObjectWithTag( "Player" );
+    }
+    
     seeker = GetComponent<Seeker>();
     seeker.pathCallback += OnPathDelegate;
     lineRenderer = GetComponentInChildren<LineRenderer>();
