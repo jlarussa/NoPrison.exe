@@ -52,7 +52,7 @@ public class Turret : MonoBehaviour
 
         // TODO: determine line of sight before deciding on target
 
-        if (distance < closestDistance)
+        if (distance < closestDistance && child.gameObject.activeSelf )
         {
           closestDistance = distance;
           bestTarget = child;

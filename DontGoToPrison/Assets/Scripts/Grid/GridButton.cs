@@ -36,4 +36,12 @@ public class GridButton : MonoBehaviour
     }
   }
 
+  public void OnPointerExit()
+  {
+    if ( mouseDown )
+    {
+      PlacementTracker.Current.TilePressed( this.gameObject.transform.position );
+    }
+  }
+
 }
