@@ -69,6 +69,12 @@ public class HotSpot : MonoBehaviour
         }
         yield return waitTime;
       }
+
+      if ( health <= 0 )
+      {
+        Destroy( gameObject );
+      }
+      
       isRunning = false;
     }
   }
