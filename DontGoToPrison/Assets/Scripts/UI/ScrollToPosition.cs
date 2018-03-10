@@ -18,9 +18,6 @@ public class ScrollToPosition : MonoBehaviour
   private IEnumerator Scroll()
   {
     yield return new WaitForEndOfFrame();
-    if ( GameController.Current.triggeredParams != null )
-    {
-      scrollRect.horizontalNormalizedPosition = ( float )( GameController.Current.triggeredParams ) / ( float )( scrollRect.content.childCount - 1 );
-    }
+    scrollRect.horizontalNormalizedPosition = ( float )( GameController.Current.triggeredParams ) / ( float )( scrollRect.content.childCount - 1 );
   }
 }
