@@ -19,4 +19,12 @@ public class TurretPhaseToggle : PhaseToggle
 	{
 		turret.StartShooting();
 	}
+
+	/// <summary>
+	/// This function is called when the MonoBehaviour will be destroyed.
+	/// </summary>
+	void OnDestroy()
+	{
+			PhaseMaster.Current.onPhaseChange -= OnPhaseChange;
+	}
 }
